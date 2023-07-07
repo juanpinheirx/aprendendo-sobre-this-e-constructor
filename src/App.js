@@ -19,12 +19,17 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       cliques: 0,
+      cor: ''
     }
     this.handleCliques = this.handleCliques.bind(this);
     this.handleCliques1 = this.handleCliques1.bind(this);
     this.handleCliques2 = this.handleCliques2.bind(this);
+    this.handleColorIf = this.handleColorIf.bind(this);
+    this.handleColor = this.handleColor.bind(this);
     //este é o método o qual se define o estado de cada componente.
   }
+
+    //dentro do componente de classe, não é necessária a sintaxe de 'function' como no exemplo abaixo
 
   handleCliques() {
     this.setState({
@@ -53,12 +58,30 @@ class App extends React.Component {
   handleChange() {
     console.log('Clicou!');
     console.log(this);
-  }
-  //dentro do componente, a mesma função de cima não será lida dentro do Render() sem o método this.
+  } //dentro do componente, a mesma função de cima não será lida dentro do Render() sem o método this. a função handleChange também consegue ler as informações do this porque está manualmente vinculada às informações do this.
 
-  //a função handleChange também consegue ler as informações do this porque está manualmente vinculada às informações do this.
-  render(){
-      console.log(this);
+  handleColor() {
+    if (this.state.cliques % 2 === 0) {
+      return this.setState((prev, _props) => ({
+        cor: prev.cor = 'verde'
+      }));
+    } if (this.state.cliques % 2 !== 0) {
+      return this.setState((prev, _props) => ({
+        cor: prev.cor = 'vermelho'
+      }))
+  };
+} //esta função muda os valores do estado inicial 'cor', que começa sendo uma string. com esta lógica foi possível mudar o botão de 'verde' para 'vermelho' e vice-versa, de acordo com o número. se o número for par, será verde. se o número for ímpar, será vermelho.
+
+  handleColorIf() {
+    this.setState((prevState) => ({
+      cliques: prevState.cliques +1,
+    }), () => {
+      this.handleColor(this.handleColorIf)
+    }
+  )} // função que retorna um log escrito 'vermelho' ou 'verde' caso o número seja par ou ímpar. para manipular uma função setState, é preciso adicionar mais um parâmetro com função callback.
+  render() {
+      // console.log(this.state);
+      // console.log(this);
  //dentro do render é que o componente renderiza as informações do this.
   return (
     <>
@@ -71,6 +94,11 @@ class App extends React.Component {
       <button onClick={this.handleCliques2}
       //este evento onClick, chamando o this.state.cliques (estado inicial), faz com que na tela seja incrementado o numero de cliques.
       >{this.state.cliques}</button>
+      <button type='number' onClick={this.handleColorIf}>
+        <h2 onClick={this.handleColor}>
+          {`Botão ${this.state.cor}`}
+        </h2>
+        </button>
     </>
   );
 }
