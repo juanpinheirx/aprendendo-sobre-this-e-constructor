@@ -62,7 +62,7 @@ class App extends React.Component {
  //dentro do render é que o componente renderiza as informações do this.
   return (
     <>
-      <h1>oi</h1>
+      <h1>Aprendendo sobre estados, função construtora e inforações de componente (this)</h1>
       <button onClick={handleClick}>Meu botao</button>
       <button onClick={this.handleChange}>Meu botao dois</button>
       <button onClick={this.handleThis}>meu botao três</button>
